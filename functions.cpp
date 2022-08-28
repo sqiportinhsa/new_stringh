@@ -46,8 +46,7 @@ char *new_strcpy(char *str_to, const char *str_from) {
 
     do {
         str_to[i] = str_from[i];
-        ++i;
-    } while (str_from[i] != '\0');
+    } while (str_from[i++] != '\0');
 
     return str_to;
 }
@@ -57,7 +56,7 @@ char *new_strncpy(char *str_to, const char *str_from, size_t n) {
         return NULL;
     }
 
-    size_t len_of_from = strlen(str_from);
+    size_t len_of_from = strnlen(str_from, n);
 
     size_t i = 0;
 
@@ -101,8 +100,8 @@ char *new_strncat(char *str_to, const char *str_from, size_t n) {
         return NULL;
     }
 
-    size_t len_from = strlen(str_from);
-    size_t len_to   = strlen(str_to);
+    size_t len_from = strnlen(str_from, n);
+    size_t len_to   = strnlen(str_to,   n);
 
     size_t i = 0;
 
@@ -122,4 +121,43 @@ char *new_strncat(char *str_to, const char *str_from, size_t n) {
    }
 
     return str_to;
+}
+
+char *new_fgets(char *str, int num, FILE *stream) {
+    if (str == NULL || stream == NULL) {
+        return NULL;
+    }
+
+    char c = (char) getc(stream);
+    int i = 0;
+    while (c != '\n' && c != EOF && i < num) {
+        str[i] = c;
+        c = (char) getc(stream);
+        ++i;
+    }
+
+    if (c == '\n') {
+        str[i] = '\n';
+    }
+
+    str[i + 1] = '\0';
+    
+    return str;
+}
+
+char *new_strdup(const char *str) {
+    if (str == NULL) {
+        return NULL;
+    }
+
+    size_t size = sizeof(str);
+    char *dup = (char *) calloc(size, sizeof(char));
+
+    if (dup == NULL) {
+        return NULL;
+    }
+
+    strcpy(dup, str);
+
+    return dup;
 }

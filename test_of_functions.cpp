@@ -216,6 +216,37 @@ int main() {
     }
 
     printf("new_strncat test completed\n");
+    printf("new_strdup  test started\n");
+
+    for (int ntest = 0; ntest < tests_array_size; ++ntest) {
+        size_t size = sizeof(Functions_tests[ntest]);
+        char *new_str = new_strdup(Functions_tests[ntest]);
+        char *str     =     strdup(Functions_tests[ntest]);
+        if (strcmp(new_str, str)) {
+            printf("new_srtdup test failure\n");
+            printf("Recieved string: <%s>\n", new_str);
+            printf("Expected string: <%s>\n",     str);
+
+            printf("Recieved line by chars:");
+            for (size_t i = 0; i < size; i++) {
+                printf("<%d>", new_str[i]);
+            }
+            printf("\n");
+
+            printf("Expected line by chars:");
+            for (size_t i = 0; i < size; i++) {
+                printf("<%d>", str[i]);
+            }
+            printf("\n");
+        }
+
+        free(new_str);
+        free(str);
+    }
+
+    printf("new_strdup  test completed\n");
+
+    printf("all tests completed successfully\n");
 
     return 0;
 }
