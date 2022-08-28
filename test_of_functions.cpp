@@ -64,7 +64,7 @@ int main() {
     printf("new_strcpy  test started\n");
 
     for (int ntest = 0; ntest < tests_array_size; ++ntest) {
-        int size = sizeof(Functions_tests[ntest]);
+        size_t size = sizeof(Functions_tests[ntest]);
 
         char new_strcpy_copy[size] = "";
         char     strcpy_copy[size] = "";
@@ -82,7 +82,7 @@ int main() {
     printf("new_strncpy test started\n");
 
     for (int ntest = 0; ntest < tests_array_size; ++ntest) {
-        size_t size = sizeof(Functions_tests[ntest]);
+        const size_t size = sizeof(Functions_tests[ntest]);
 
         char new_strncpy_copy_short[size - 1] = "";
         char     strncpy_copy_short[size - 1] = "";
@@ -133,7 +133,7 @@ int main() {
     printf("new_strcat  test started\n");
 
     for (int nstring = 1; nstring < tests_array_size; ++nstring) {
-        size_t size = strlen(Functions_tests[nstring]) + strlen(Functions_tests[nstring - 1]);
+        const size_t size = strlen(Functions_tests[nstring]) + strlen(Functions_tests[nstring - 1]);
         char new_sum_of_lines[size] = {};
         char     sum_of_lines[size] = {};
 
@@ -159,12 +159,10 @@ int main() {
     printf("new_strcat  test completed\n");
     printf("new_strncat test started\n");
 
-    for (int nstring = 0; nstring < tests_array_size; ++nstring) {
-        size_t sizen   = sizeof(Functions_tests[nstring]);
-        size_t sizenmo = sizeof(Functions_tests[nstring - 1]);
-        size_t sizesum = sizen + sizenmo;
-
-        printf("%d", nstring);
+    for (int nstring = 1; nstring < tests_array_size; ++nstring) {
+        const size_t sizen   = sizeof(Functions_tests[nstring]);
+        const size_t sizenmo = sizeof(Functions_tests[nstring - 1]);
+        const size_t sizesum = sizen + sizenmo;
 
         char new_strncat_sum_short[sizesum - 1] = "";
         char     strncat_sum_short[sizesum - 1] = "";
@@ -172,23 +170,15 @@ int main() {
         char new_strncat_sum_long[sizesum + 1]  = "";
         char     strncat_sum_long[sizesum + 1]  = "";
 
-        fprintf(stderr, "initialization ok\n");
-
         strcpy(new_strncat_sum_long,  Functions_tests[nstring]);
         strcpy(    strncat_sum_long,  Functions_tests[nstring]);
         strcpy(new_strncat_sum_short, Functions_tests[nstring]);
         strcpy(    strncat_sum_short, Functions_tests[nstring]);
 
-        fprintf(stderr, "strcpy ok\n");
-
-        new_strncat(new_strncat_sum_long,  Functions_tests[nstring-1], sizen + 1);
-        fprintf(stderr, "new_strcat long ok\n");
-            strncat(    strncat_sum_long,  Functions_tests[nstring-1], sizen + 1);
-        fprintf(stderr, "strcat long ok\n");
-        new_strncat(new_strncat_sum_short, Functions_tests[nstring-1], sizen - 1);
-        fprintf(stderr, "new_strcat short ok\n");
-            strncat(    strncat_sum_short, Functions_tests[nstring-1], sizen - 1);
-        fprintf(stderr, "strcat short ok\n");
+        new_strncat(new_strncat_sum_long,  Functions_tests[nstring-1], sizenmo + 1);
+            strncat(    strncat_sum_long,  Functions_tests[nstring-1], sizenmo + 1);
+        new_strncat(new_strncat_sum_short, Functions_tests[nstring-1], sizenmo - 1);
+            strncat(    strncat_sum_short, Functions_tests[nstring-1], sizenmo - 1);
 
         if (memcmp(new_strncat_sum_short, strncat_sum_short, sizesum - 1))
         {
@@ -229,5 +219,3 @@ int main() {
 
     return 0;
 }
-
-
